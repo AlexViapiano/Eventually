@@ -1062,7 +1062,7 @@ button:disabled,
   input[type='button'],
   button,
   .button {
-    padding: 0;
+    padding: 10;
   }
 }
 
