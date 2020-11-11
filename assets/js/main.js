@@ -182,14 +182,14 @@
       var email = document.querySelectorAll('#email')[0];
       console.log(email.value);
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://api.sendgrid.com/v3/mail/send', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(
-        JSON.stringify({
-          email: email.value,
-        })
-      );
+      // var xhr = new XMLHttpRequest();
+      // xhr.open('POST', 'https://api.sendgrid.com/v3/mail/send', true);
+      // xhr.setRequestHeader('Content-Type', 'application/json');
+      // xhr.send(
+      //   JSON.stringify({
+      //     email: email.value,
+      //   })
+      // );
 
       // Hide message.
       $message._hide();
