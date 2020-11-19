@@ -144,73 +144,40 @@
     }, settings.delay);
   })();
 
-  // Signup Form.
-  (function () {
-    // Vars.
-    var $form = document.querySelectorAll('#signup-form')[0],
-      $submit = document.querySelectorAll('#signup-form input[type="submit"]')[0],
-      $message;
+  $('#sendMessage').on('click', function () {
+    event.stopPropagation();
+    event.preventDefault();
+    var name = document.querySelectorAll('#name')[0];
+    var email = document.querySelectorAll('#email')[0];
+    var supplierCheckbox = document.querySelectorAll('#supplier')[0];
+    var supplier = supplierCheckbox.value == 'true';
 
-    // Bail if addEventListener isn't supported.
-    if (!('addEventListener' in $form)) return;
+    if (!email.value || !name.value) {
+      document.getElementById('messageError').style.display = 'flex';
+      return;
+    }
 
-    // Message.
-    $message = document.createElement('span');
-    $message.classList.add('message');
-    $form.appendChild($message);
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var emailValidated = re.test(String(email.value).toLowerCase());
+    if (emailValidated) {
+      $.ajax({
+        url: 'https://formspree.io/f/meqpzoep',
+        method: 'POST',
+        data: {
+          name: name.value,
+          email: email.value,
+          supplier: supplier,
+        },
+        dataType: 'json',
+      });
 
-    $message._show = function (type, text) {
-      $message.innerHTML = text;
-      $message.classList.add(type);
-      $message.classList.add('visible');
-
-      window.setTimeout(function () {
-        $message._hide();
-      }, 3000);
-    };
-
-    $message._hide = function () {
-      $message.classList.remove('visible');
-    };
-
-    // Events.
-    // Note: If you're *not* using AJAX, get rid of this event listener.
-    $form.addEventListener('submit', function (event) {
-      event.stopPropagation();
-      event.preventDefault();
-
-      var email = document.querySelectorAll('#email')[0];
-      console.log(email.value);
-
-      // var xhr = new XMLHttpRequest();
-      // xhr.open('POST', 'https://api.sendgrid.com/v3/mail/send', true);
-      // xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.send(
-      //   JSON.stringify({
-      //     email: email.value,
-      //   })
-      // );
-
-      // Hide message.
-      $message._hide();
-
-      // Disable submit.
-      $submit.disabled = true;
-
-      // Process form.
-      // Note: Doesn't actually do anything yet (other than report back with a "thank you"),
-      // but there's enough here to piece together a working AJAX submission call that does.
-      window.setTimeout(function () {
-        // Reset form.
-        $form.reset();
-
-        // Enable submit.
-        $submit.disabled = false;
-
-        // Show message.
-        $message._show('success', 'Thank you!');
-        //$message._show('failure', 'Something went wrong. Please try again.');
-      }, 750);
-    });
-  })();
+      document.getElementById('message').style.display = 'flex';
+      document.getElementById('messageError').style.display = 'none';
+      document.getElementById('sendMessage').disabled = true;
+      document.getElementById('name').disabled = true;
+      document.getElementById('email').disabled = true;
+      document.getElementById('supplier').disabled = true;
+      return;
+    }
+  });
 })();

@@ -1102,19 +1102,20 @@ button:disabled,
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
+  flex-direction: column;
   position: relative;
 }
-#signup-form input[type='text'],
+/* #signup-form input[type='text'],
 #signup-form input[type='password'],
 #signup-form input[type='email'] {
   width: 18em;
-}
+} */
 #signup-form > * {
-  margin: 0 0 0 1em;
+  margin: 1em;
 }
-#signup-form > :first-child {
+/* #signup-form > :first-child {
   margin: 0 0 0 0;
-}
+} */
 @media screen and (max-width: 480px) {
   #signup-form {
     -moz-flex-direction: column;
